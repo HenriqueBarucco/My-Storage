@@ -1,6 +1,7 @@
+import { Product } from '@prisma/client';
 import Image from 'next/image';
 
-export default function ProductCard() {
+export default function ProductCard({product}: {product: Product}) {
     return (
         <div className="card w-60 shadow-xl glass">
             <figure>
@@ -8,9 +9,9 @@ export default function ProductCard() {
             </figure>
             <div className="card-body">
                 <h2 className="card-title">
-                    Produto
+                    {product.name}
                 </h2>
-                <p className='line-clamp-5'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quasi obcaecati ducimus laboriosam rerum labore...</p>
+                <p className='line-clamp-5'>{product.description}</p>
                 <div className="card-actions justify-end">
                     <div className="badge badge-outline">Categoria 1</div> 
                     <div className="badge badge-outline">Categoria 2</div>
