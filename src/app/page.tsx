@@ -1,9 +1,17 @@
 import Navbar from '@/components/navbar';
 import ProductCard from '@/components/product-card';
+import { authOptions } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
+import { getServerSession } from 'next-auth';
 
 export default async function Home() {
-    let products = await prisma.product.findMany();
+    const session = await getServerSession(authOptions) as any;
+
+    let products = await prisma.product.findMany({
+        where: {
+            userId: session?.user?.id
+        }
+    });
 
     return (
         <main className='flex flex-col h-screen'>

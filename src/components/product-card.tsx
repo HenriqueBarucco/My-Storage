@@ -3,7 +3,7 @@ import Image from 'next/image';
 
 export default function ProductCard({product}: {product: Product}) {
     return (
-        <div className="card w-60 shadow-xl glass">
+        <div className="card w-60 shadow-xl glass hover:cursor-pointer hover:shadow-2xl">
             <figure>
                 <Image src={`data:image/jpeg;base64,${product.image.toString('base64')}`} alt={product.name} width={1920} height={1080}/>
             </figure>
