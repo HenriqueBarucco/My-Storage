@@ -22,7 +22,7 @@ export default function Navbar() {
                     </svg>
                 </button>
                 <div className="form-control">
-                    <input type="text" placeholder="Search" className="input input-bordered w-24 md:w-auto" />
+                    <input type="text" placeholder="Procurar" className="input input-bordered w-24 md:w-auto" />
                 </div>
                 <div className="dropdown dropdown-end">
                     <h1>{session?.user?.name}</h1>

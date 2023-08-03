@@ -1,19 +1,20 @@
 import { PrismaClient } from '@prisma/client';
+import { hash } from 'bcryptjs';
 const prisma = new PrismaClient();
 
 async function main() {
     await prisma.product.create({
         data: {
-            name: 'Produto 1',
-            description: 'Descrição do produto 1',
-            price: 10.00,
+            name: 'Mechanike K500',
+            description: 'Descrição do teclado',
+            price: 180.00,
             quantity: 1,
-            isAtBox: false,
-            location: 'Localização do produto 1',
-            observations: 'Observações do produto 1',
+            isAtBox: true,
+            location: 'Guarda-Roupa',
+            observations: 'Novo',
             Category: {
                 create: {
-                    name: 'Categoria 1',
+                    name: 'Teclado',
                 }
             },
             User: {
@@ -21,11 +22,11 @@ async function main() {
                     name: 'Henrique Barucco',
                     email: 'henrique@email.com',
                     username: 'admin',
-                    password: 'admin',
+                    password: await hash('admin1234', 12)
                     
                 }
             },
-            image: new Buffer(''),
+            image: 'https://media.karousell.com/media/photos/products/2022/12/17/mechanike_k500_keycaps_only_10_1671269414_52f246f0.jpg',
         }
     });
 }

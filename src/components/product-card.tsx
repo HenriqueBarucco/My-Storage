@@ -1,11 +1,15 @@
+'use client';
+
 import { Product } from '@prisma/client';
 import Image from 'next/image';
+import { redirect } from 'next/navigation';
 
 export default function ProductCard({product}: {product: Product}) {
+    const handleClick = () => redirect(`/product/${product.id}`);
     return (
-        <div className="card w-60 shadow-xl glass hover:cursor-pointer hover:shadow-2xl">
+        <div className="card w-60 shadow-xl glass hover:cursor-pointer hover:shadow-2xl" onClick={handleClick}>
             <figure>
-                <Image src={`data:image/jpeg;base64,${product.image.toString('base64')}`} alt={product.name} width={1920} height={1080}/>
+                <Image src={product.image} alt={product.name} width={1920} height={1080}/>
             </figure>
             <div className="card-body">
                 <h2 className="card-title">

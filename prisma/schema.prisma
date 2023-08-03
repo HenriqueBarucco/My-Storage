@@ -2,53 +2,53 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider = "prisma-client-js"
+    provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "mysql"
-  url      = env("DATABASE_URL")
+    provider = "mysql"
+    url      = env("DATABASE_URL")
 }
 
 model User {
-  id       String @id @default(uuid())
-  username String @unique
-  email    String @unique
-  name     String
-  password String
+    id       String @id @default(uuid())
+    username String @unique
+    email    String @unique
+    name     String
+    password String
 
-  Product Product[]
+    Product Product[]
 
-  @@map("users_tbl")
+    @@map("users_tbl")
 }
 
 model Product {
-  id           String   @id @default(uuid())
-  name         String
-  description  String
-  location     String
-  image        Bytes
-  isAtBox      Boolean
-  quantity     Int
-  price        Float
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
-  observations String
+    id           String   @id @default(uuid())
+    name         String
+    description  String
+    location     String
+    image        String
+    isAtBox      Boolean
+    quantity     Int
+    price        Float
+    createdAt    DateTime @default(now())
+    updatedAt    DateTime @updatedAt
+    observations String
 
-  User   User?   @relation(fields: [userId], references: [id])
-  userId String?
+    User   User?   @relation(fields: [userId], references: [id])
+    userId String?
 
-  Category   Category? @relation(fields: [categoryId], references: [id])
-  categoryId String?
+    Category   Category? @relation(fields: [categoryId], references: [id])
+    categoryId String?
 
-  @@map("products_tbl")
+    @@map("products_tbl")
 }
 
 model Category {
-  id   String @id @default(uuid())
-  name String
+    id   String @id @default(uuid())
+    name String
 
-  Product Product[]
+    Product Product[]
 
-  @@map("categories_tbl")
+    @@map("categories_tbl")
 }
