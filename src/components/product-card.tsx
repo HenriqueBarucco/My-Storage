@@ -7,9 +7,9 @@ import { redirect } from 'next/navigation';
 export default function ProductCard({product}: {product: Product}) {
     const handleClick = () => redirect(`/product/${product.id}`);
     return (
-        <div className="card w-60 shadow-xl glass hover:cursor-pointer hover:shadow-2xl" onClick={handleClick}>
+        <div className="card w-60 h-96 shadow-xl glass hover:cursor-pointer hover:shadow-2xl m-3" onClick={handleClick}>
             <figure className='w-60 h-40'>
-                <Image src={product.image} alt={product.name} width={1920} height={1080}/>
+                <Image src={product.image} alt={product.name} width={1920} height={1080} placeholder='blur' blurDataURL='https://github.com/henriquebarucco.png'/>
             </figure>
             <div className="card-body p-3">
                 <h2 className="card-title">
