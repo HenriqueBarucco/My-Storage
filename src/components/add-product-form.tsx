@@ -23,14 +23,13 @@ export default function AddProduct() {
 
     const onSubmit = async (data: any) => {
         try {
-            const res = await fetch('/api/product', {
+            await fetch('/api/product', {
                 method: 'POST',
                 body: JSON.stringify(data),
                 headers: {
                     'Content-Type': 'application/json',
                 },
             });
-            console.log(res);
         } catch (error: any) {
             console.error(error);
         }
