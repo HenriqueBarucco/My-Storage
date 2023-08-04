@@ -1,5 +1,7 @@
 import AddProduct from './add-product-form';
 
+declare const window: any;
+
 export default function AddProductModal() {
     return (
         <>
