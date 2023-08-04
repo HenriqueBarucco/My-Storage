@@ -7,10 +7,11 @@ export async function POST(req: Request) {
     const session = await getServerSession(authOptions) as any;
 
     try {
-        const { name, description, location, image, quantity, price, observation  } = (await req.json()) as {
+        const { name, description, location, isAtBox, image, quantity, price, observation  } = (await req.json()) as {
             name: string;
             description: string;
             location: string;
+            isAtBox: boolean;
             image: string;
             quantity: string;
             price: string;
@@ -26,7 +27,7 @@ export async function POST(req: Request) {
                 quantity: parseInt(quantity),
                 price: parseFloat(price),
                 observations: observation,
-                isAtBox: false,
+                isAtBox,
                 userId: session.user.id,
             },
         });

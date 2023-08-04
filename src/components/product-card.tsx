@@ -8,14 +8,14 @@ export default function ProductCard({product}: {product: Product}) {
     const handleClick = () => redirect(`/product/${product.id}`);
     return (
         <div className="card w-60 shadow-xl glass hover:cursor-pointer hover:shadow-2xl" onClick={handleClick}>
-            <figure>
+            <figure className='w-60 h-40'>
                 <Image src={product.image} alt={product.name} width={1920} height={1080}/>
             </figure>
-            <div className="card-body">
+            <div className="card-body p-3">
                 <h2 className="card-title">
                     {product.name}
                 </h2>
-                <p className='line-clamp-5'>{product.description}</p>
+                <p className='line-clamp-3'>{product.description}</p>
                 <div className="card-actions justify-center">
                     <div className="badge badge-outline">Categoria 1</div> 
                     <div className="badge badge-outline">Categoria 2</div>

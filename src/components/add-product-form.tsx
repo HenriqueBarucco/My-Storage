@@ -7,6 +7,7 @@ export default function AddProduct() {
         name: z.string(),
         description: z.string(),
         location: z.string(),
+        isAtBox: z.boolean(),
         image: z.string(),
         quantity: z.string(),
         price: z.string(),
@@ -46,10 +47,17 @@ export default function AddProduct() {
                 <span>Descrição</span>
                 <textarea className="textarea textarea-bordered" {...register('description', { required: true})}/>
             </div>
-            <div className="join join-vertical">
-                <span>Localização</span>
-                <input type="text" className="input input-bordered input-sm" {...register('location', { required: true})}/>
+            <div className="flex flex-row space-x-3">
+                <div className="join join-vertical w-4/5">
+                    <span>Localização</span>
+                    <input type="text" className="input input-bordered input-sm" {...register('location', { required: true})}/>
+                </div>
+                <div className="join join-vertical w-auto">
+                    <span>Na caixa?</span>
+                    <input type="checkbox" className="checkbox checkbox-md" {...register('isAtBox', { required: true})}/>
+                </div>
             </div>
+
             <div className="join join-vertical">
                 <span>Imagem</span>
                 <input type="text" className="input input-bordered input-sm" {...register('image', { required: true})}/>
