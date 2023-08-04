@@ -1,18 +1,20 @@
 'use client';
 
-import { signOut, useSession } from 'next-auth/react';
+import { signOut } from 'next-auth/react';
 import Image from 'next/image';
 import { redirect } from 'next/navigation';
 import AddProductModal from './add-product-modal';
 
-export default function Navbar() {
-    const { data: session } = useSession();
-
+export default function Navbar({name}: {name: string}) {
     return (
         <div className="navbar bg-base-200">
             <div className="flex-1">
                 <a className="btn btn-ghost normal-case text-xl" onClick={() => redirect('/')}>
-                    <Image src={'/icon.png'} alt='Icon' width={32} height={32} />
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} className="w-6 h-6 stroke-primary">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z" />
+                    </svg>
+
+                    {/* <Image src={'/icon.png'} alt='Icon' width={32} height={32} /> */}
                     My Storage
                 </a>
             </div>
@@ -22,7 +24,7 @@ export default function Navbar() {
                     <input type="text" placeholder="Procurar" className="input input-bordered w-24 md:w-auto" />
                 </div>
                 <div className="dropdown dropdown-end">
-                    <h1>{session?.user?.name}</h1>
+                    <h1>{name}</h1>
                 </div>
                 <div className="dropdown dropdown-end">
                     <label tabIndex={0} className="btn btn-ghost btn-circle avatar">

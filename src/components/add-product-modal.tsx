@@ -8,12 +8,12 @@ export default function AddProductModal() {
                     <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                 </svg>
             </button>
-            <dialog id="modal" className="modal">
-                <form method="dialog" className="modal-box">
-                    <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+            <dialog id="modal" className="modal modal-bottom sm:modal-middle">
+                <div className="modal-box">
+                    <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" onClick={() =>  window.modal.close()}>✕</button>
                     <h3 className="font-bold text-lg">Adicionar produto</h3>
                     <AddProduct/>
-                </form>
+                </div>
             </dialog>
         </>
     );
