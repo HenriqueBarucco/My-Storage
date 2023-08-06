@@ -34,6 +34,7 @@ model Product {
     createdAt    DateTime @default(now())
     updatedAt    DateTime @updatedAt
     observations String
+    desire       Boolean  @default(false)
 
     User   User?   @relation(fields: [userId], references: [id])
     userId String?
