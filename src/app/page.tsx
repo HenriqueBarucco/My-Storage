@@ -10,6 +10,7 @@ export default async function Home() {
     let products = await prisma.product.findMany({
         where: {
             userId: session?.user?.id,
+            deleted: null
         },
         orderBy: {
             name: 'asc'

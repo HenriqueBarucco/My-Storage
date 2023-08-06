@@ -23,7 +23,7 @@ model User {
 }
 
 model Product {
-    id           String   @id @default(uuid())
+    id           String    @id @default(uuid())
     name         String
     description  String
     location     String
@@ -31,10 +31,11 @@ model Product {
     isAtBox      Boolean
     quantity     Int
     price        Float
-    createdAt    DateTime @default(now())
-    updatedAt    DateTime @updatedAt
+    createdAt    DateTime  @default(now())
+    updatedAt    DateTime  @updatedAt
     observations String
-    desire       Boolean  @default(false)
+    desire       Boolean   @default(false)
+    deleted      DateTime?
 
     User   User?   @relation(fields: [userId], references: [id])
     userId String?

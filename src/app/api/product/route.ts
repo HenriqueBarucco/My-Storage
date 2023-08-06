@@ -43,3 +43,28 @@ export async function POST(req: Request) {
         );
     }
 }
+
+export async function DELETE(req: Request) {
+    const session = await getServerSession(authOptions) as any;
+
+    try {
+        const { id } = (await req.json()) as {id: string};
+
+        await prisma.product.delete({
+            where: {
+                id: id,
+                userId: session.user.id,
+            }
+        });
+
+        return NextResponse.json({message: 'Product deleted'});
+    } catch (error: any) {
+        return new NextResponse(
+            JSON.stringify({
+                status: 'error',
+                message: error.message,
+            }),
+            { status: 500 }
+        );
+    }
+}
