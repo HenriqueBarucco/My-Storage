@@ -12,7 +12,6 @@ datasource db {
 
 model User {
     id       String @id @default(uuid())
-    username String @unique
     email    String @unique
     name     String
     password String
@@ -23,34 +22,23 @@ model User {
 }
 
 model Product {
-    id           String    @id @default(uuid())
-    name         String
-    description  String
-    location     String
-    image        String
-    isAtBox      Boolean
-    quantity     Int
-    price        Float
-    createdAt    DateTime  @default(now())
-    updatedAt    DateTime  @updatedAt
-    observations String
-    desire       Boolean   @default(false)
-    deleted      DateTime?
+    id          String  @id @default(uuid())
+    name        String
+    description String
+    location    String
+    image       String  @db.LongText
+    category    String
+    isAtBox     Boolean @default(true)
+    quantity    Int
+    price       Float?
+    desire      Boolean @default(false)
+
+    createdAt DateTime  @default(now())
+    updatedAt DateTime  @updatedAt
+    deleted   DateTime?
 
     User   User?   @relation(fields: [userId], references: [id])
     userId String?
 
-    Category   Category? @relation(fields: [categoryId], references: [id])
-    categoryId String?
-
     @@map("products_tbl")
-}
-
-model Category {
-    id   String @id @default(uuid())
-    name String
-
-    Product Product[]
-
-    @@map("categories_tbl")
 }

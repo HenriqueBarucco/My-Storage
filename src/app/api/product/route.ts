@@ -7,15 +7,16 @@ export async function POST(req: Request) {
     const session = await getServerSession(authOptions) as any;
 
     try {
-        const { name, description, location, isAtBox, image, quantity, price, observation  } = (await req.json()) as {
+        const { name, description, location, isAtBox, isDesire, image, quantity, price, category  } = (await req.json()) as {
             name: string;
             description: string;
             location: string;
             isAtBox: boolean;
+            isDesire: boolean;
             image: string;
             quantity: string;
             price: string;
-            observation: string;
+            category: string;
     };
 
         const product = await prisma.product.create({
@@ -26,8 +27,9 @@ export async function POST(req: Request) {
                 image,
                 quantity: parseInt(quantity),
                 price: parseFloat(price),
-                observations: observation,
+                category,
                 isAtBox,
+                desire: isDesire,
                 userId: session.user.id,
             },
         });

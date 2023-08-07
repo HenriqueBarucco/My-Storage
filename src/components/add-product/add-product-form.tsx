@@ -8,10 +8,11 @@ export default function AddProduct() {
         description: z.string(),
         location: z.string(),
         isAtBox: z.boolean(),
-        image: z.string(),
+        isDesire: z.boolean(),
+        image: z.any(),
         quantity: z.string(),
         price: z.string(),
-        observation: z.string(),
+        category: z.string()
     });
 
     const {
@@ -24,9 +25,14 @@ export default function AddProduct() {
 
     const onSubmit = async (data: any) => {
         try {
+            //console.log(data);
+            //console.log(await convertFileToBase64(data.image[0]));
             await fetch('/api/product', {
                 method: 'POST',
-                body: JSON.stringify(data),
+                body: JSON.stringify({
+                    ...data,
+                    image: await convertFileToBase64(data.image[0]),
+                }),
                 headers: {
                     'Content-Type': 'application/json',
                 },
@@ -47,42 +53,74 @@ export default function AddProduct() {
                 <span>Descrição</span>
                 <textarea className="textarea textarea-bordered" {...register('description', { required: true})}/>
             </div>
-            <div className="flex flex-row space-x-3">
+            <div className="flex flex-row space-x-3 items-end">
                 <div className="join join-vertical w-4/5">
                     <span>Localização</span>
                     <input type="text" className="input input-bordered input-sm" {...register('location', { required: true})}/>
                 </div>
                 <div className="join join-vertical w-auto">
-                    <span>Na caixa?</span>
-                    <input type="checkbox" className="checkbox checkbox-md" {...register('isAtBox', { required: true})}/>
+                    <div className="input-group">
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="w-6 h-6 stroke-primary">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z" />
+                            </svg>
+                        </span>
+                        <input type="checkbox" className="checkbox checkbox-lg" {...register('isAtBox', { required: true})}/>
+                    </div>
                 </div>
+                <div className="join join-vertical w-auto">
+                    <div className="input-group">
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="w-6 h-6 stroke-primary">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0111.186 0z" />
+                            </svg>
+                        </span>
+                        <input type="checkbox" className="checkbox checkbox-lg" {...register('isDesire', { required: true})}/>
+                    </div>
+                </div> 
             </div>
-
             <div className="join join-vertical">
                 <span>Imagem</span>
-                <input type="text" className="input input-bordered input-sm" {...register('image', { required: true})}/>
+                <input type="file" className="file-input file-input-bordered file-input-sm w-full file-input-text-primary" {...register('image', { required: true})} />
             </div>
-            {/* CHECK BOX DO IS AT BOX*/ }
             <div className="flex flex-row space-x-3">
                 <div className="join join-vertical w-1/3">
                     <span>Quantidade</span>
-                    <input type="text" className="input input-bordered input-sm" {...register('quantity', { required: true})}/>
+                    <input type="number" className="input input-bordered input-sm" defaultValue={0} {...register('quantity', { required: true})}/>
                 </div>
                 <div className="join join-vertical w-auto">
                     <span>Preço</span>
                     <div className="input-group">
-                        <span>R$</span>
-                        <input type="text" className="input input-bordered input-sm w-full" {...register('price', { required: true})}/>
+                        <span className='text-primary'>R$</span>
+                        <input type="number" className="input input-bordered input-sm w-full" defaultValue={0} {...register('price', { required: true})}/>
                     </div>
                 </div>
             </div>
-
             <div className="join join-vertical">
-                <span>Observação</span>
-                <textarea className="textarea textarea-bordered" {...register('observation', { required: true})}/>
+                <span>Categoria</span>
+                <select className="select select-bordered max-w" {...register('category', { required: true})}>
+                    <option disabled>Selecione uma categoria</option>
+                    <option>Eletrônico</option>
+                    <option>Cabo</option>
+                </select>
             </div>
-            {/*Categorias*/ }
             <input className='btn btn-primary' type="submit" value={'Salvar'}/>
         </form>
     );
+}
+
+function convertFileToBase64(file: any) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+
+        reader.onload = function () {
+            resolve(reader.result);
+        };
+
+        reader.onerror = function (error) {
+            reject(error);
+        };
+
+        reader.readAsDataURL(file);
+    });
 }

@@ -53,7 +53,6 @@ export default function ProductView({product}: {product: Product}) {
                     <p className='text-1xl text-center'>{product.description}</p>
                     <p className='text-1xl align-bottom'>Localização: {product.location}</p>
                     <p className='text-1xl align-bottom'>Preço: {product.price}</p>
-                    <p className='text-1xl align-bottom'>Observação: {product.observations}</p>
                 </div>
                 <div className='flex flex-row justify-center space-x-4'>
                     <button>
