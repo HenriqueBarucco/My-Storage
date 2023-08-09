@@ -3,14 +3,14 @@ const nextConfig = {
     images: {
         remotePatterns: [
             {
-                protocol: "https",
-                hostname: "**",
+                protocol: 'https',
+                hostname: '**',
             },
         ],
     },
     experimental: {
         appDir: true,
-        serverComponentsExternalPackages: ["@prisma/client", "bcryptjs"],
+        serverComponentsExternalPackages: ['@prisma/client', 'bcryptjs'],
     },
 };
 

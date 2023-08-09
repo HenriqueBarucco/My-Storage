@@ -2,7 +2,6 @@ import type { NextAuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import { prisma } from './prisma';
 import { compare } from 'bcryptjs';
-//import axios from 'axios';
 
 export const authOptions: NextAuthOptions = {
     session: {
@@ -22,14 +21,17 @@ export const authOptions: NextAuthOptions = {
                 if (!credentials?.email || !credentials.password) {
                     return null;
                 }
-          
+
                 const user = await prisma.user.findUnique({
                     where: {
                         email: credentials.email,
                     },
                 });
-          
-                if (!user || !(await compare(credentials.password, user.password))) {
+
+                if (
+                    !user ||
+                    !(await compare(credentials.password, user.password))
+                ) {
                     return null;
                 }
 
@@ -65,5 +67,5 @@ export const authOptions: NextAuthOptions = {
             }
             return token;
         },
-    }
+    },
 };

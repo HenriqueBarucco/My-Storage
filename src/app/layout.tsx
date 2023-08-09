@@ -10,13 +10,13 @@ export const metadata: Metadata = {
     description: 'My Storage 1.0',
     icons: {
         icon: '/icon.png',
-    }
+    },
 };
 
 export default function RootLayout({
     children,
 }: {
-  children: React.ReactNode
+    children: React.ReactNode;
 }) {
     return (
         <html lang="pt-BR">

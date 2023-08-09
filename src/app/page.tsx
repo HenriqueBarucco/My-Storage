@@ -5,23 +5,23 @@ import { prisma } from '@/lib/prisma';
 import { getServerSession } from 'next-auth';
 
 export default async function Home() {
-    const session = await getServerSession(authOptions) as any;
+    const session = (await getServerSession(authOptions)) as any;
 
     let products = await prisma.product.findMany({
         where: {
             userId: session?.user?.id,
-            deleted: null
+            deleted: null,
         },
         orderBy: {
-            name: 'asc'
+            name: 'asc',
         },
     });
 
     return (
-        <main className='flex flex-col h-screen'>
-            <Navbar name={session?.user?.name}/>
-            <div className='flex-grow bg-base'>
-                <ProductsList products={products}/>
+        <main className="flex flex-col h-screen">
+            <Navbar name={session?.user?.name} />
+            <div className="flex-grow bg-base">
+                <ProductsList products={products} />
             </div>
         </main>
     );

@@ -5,8 +5,10 @@ import { useEffect, useState } from 'react';
 import ProductCard from './product-card';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
-export default function ProductsList({ products }: { products: Product[]}) {
-    const [productList, setProducts] = useState(products.filter((product) => !product.desire));
+export default function ProductsList({ products }: { products: Product[] }) {
+    const [productList, setProducts] = useState(
+        products.filter((product) => !product.desire),
+    );
     const [desire, setDesire] = useState(false);
     const searchParams = useSearchParams();
     const router = useRouter();
@@ -16,7 +18,11 @@ export default function ProductsList({ products }: { products: Product[]}) {
 
     useEffect(() => {
         if (search) {
-            setProducts(products.filter((product) => product.name.toLowerCase().includes(search.toLowerCase())));
+            setProducts(
+                products.filter((product) =>
+                    product.name.toLowerCase().includes(search.toLowerCase()),
+                ),
+            );
         } else {
             router.replace(pathname);
             setProducts(products);
@@ -34,13 +40,24 @@ export default function ProductsList({ products }: { products: Product[]}) {
     return (
         <>
             <div className="tabs justify-center pt-8">
-                <a className={`tab tab-lifted ${desire ? '' : 'tab-active'}`} onClick={() => desire && setDesire(!desire)}>Meus Produtos</a> 
-                <a className={`tab tab-lifted ${desire ? 'tab-active' : ''}`} onClick={() => !desire && setDesire(!desire)}>Lista de Desejos</a> 
+                <a
+                    className={`tab tab-lifted ${desire ? '' : 'tab-active'}`}
+                    onClick={() => desire && setDesire(!desire)}
+                >
+                    Meus Produtos
+                </a>
+                <a
+                    className={`tab tab-lifted ${desire ? 'tab-active' : ''}`}
+                    onClick={() => !desire && setDesire(!desire)}
+                >
+                    Lista de Desejos
+                </a>
             </div>
             <div className="flex flex-wrap max-w-full p-14 lg:justify-center">
                 {productList.map((product, index) => (
-                    <ProductCard key={index} product={product as any}/>
+                    <ProductCard key={index} product={product as any} />
                 ))}
-            </div></>
+            </div>
+        </>
     );
 }

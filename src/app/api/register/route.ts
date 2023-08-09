@@ -9,7 +9,7 @@ export async function POST(req: Request) {
             name: string;
             email: string;
             password: string;
-    };
+        };
         const hashed_password = await hash(password, 12);
 
         const user = await prisma.user.create({
@@ -32,7 +32,7 @@ export async function POST(req: Request) {
                 status: 'error',
                 message: error.message,
             }),
-            { status: 500 }
+            { status: 500 },
         );
     }
 }
