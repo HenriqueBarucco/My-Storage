@@ -43,10 +43,10 @@ export const authOptions: NextAuthOptions = {
             },
         }),
     ],
-    /* pages: {
+    pages: {
         signIn: '/login',
         error: '/login',
-    }, */
+    },
     callbacks: {
         session: ({ session, token }) => {
             return {
