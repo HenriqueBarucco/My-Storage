@@ -19,7 +19,7 @@ export default function LoginForm() {
         resolver: zodResolver(formSchema),
     });
 
-    const onSubmit = async (data) => {
+    const onSubmit = async (data: {email: string, password: string}) => {
         signIn('credentials', {
             email: data.email,
             password: data.password,
