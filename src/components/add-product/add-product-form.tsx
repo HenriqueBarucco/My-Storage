@@ -1,6 +1,7 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
+import { saveImage } from '@/lib/image';
 
 export default function AddProduct() {
     const formSchema = z.object({
@@ -25,13 +26,11 @@ export default function AddProduct() {
 
     const onSubmit = async (data: any) => {
         try {
-            //console.log(data);
-            //console.log(await convertFileToBase64(data.image[0]));
             await fetch('/api/product', {
                 method: 'POST',
                 body: JSON.stringify({
                     ...data,
-                    image: await convertFileToBase64(data.image[0]),
+                    image: await getImageUrl(data.image[0]),
                 }),
                 headers: {
                     'Content-Type': 'application/json',
@@ -127,6 +126,7 @@ export default function AddProduct() {
                 <input
                     type="file"
                     className="file-input file-input-bordered file-input-sm w-full file-input-text-primary"
+                    accept='image/*'
                     {...register('image', { required: true })}
                 />
             </div>
@@ -169,18 +169,10 @@ export default function AddProduct() {
     );
 }
 
-function convertFileToBase64(file: any) {
-    return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-
-        reader.onload = function () {
-            resolve(reader.result);
-        };
-
-        reader.onerror = function (error) {
-            reject(error);
-        };
-
-        reader.readAsDataURL(file);
-    });
+async function getImageUrl(file: any) {
+    const response = await saveImage(file);
+    if (response.filename) {
+        return response.filename;
+    }
+    throw new Error('Erro ao salvar imagem');
 }

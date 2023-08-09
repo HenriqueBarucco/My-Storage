@@ -1,5 +1,4 @@
 import { authOptions } from '@/lib/auth';
-import { saveImage } from '@/lib/image';
 import { prisma } from '@/lib/prisma';
 import { getServerSession } from 'next-auth';
 import { NextResponse } from 'next/server';
@@ -29,11 +28,8 @@ export async function POST(req: Request) {
             price: string;
             category: string;
         };
-        const imageSaved = await saveImage(image);
 
-        console.log('imagem:', imageSaved);
-
-        /* const product = await prisma.product.create({
+        const product = await prisma.product.create({
             data: {
                 name,
                 description,
@@ -46,7 +42,7 @@ export async function POST(req: Request) {
                 desire: isDesire,
                 userId: session.user.id,
             },
-        }); */
+        });
 
         return NextResponse.json(product);
     } catch (error: any) {

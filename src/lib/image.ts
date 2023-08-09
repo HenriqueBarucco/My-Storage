@@ -1,25 +1,24 @@
-import { exec } from 'child_process';
-import * as fs from 'fs';
+import axios from 'axios';
+import FormData from 'form-data';
 
-export async function saveImage(base64String: string): Promise<string> {
-    const imageBuffer = Buffer.from(base64String, 'base64');
+export async function saveImage(file: any): Promise<any> {
+    const formData = new FormData();
+    formData.append('file', file, 'teste.png');
 
-    const tempFilePath = '/tmp/file.jpg';
-    fs.writeFileSync(tempFilePath, imageBuffer);
+    try {
+        var config = {
+            method: 'post',
+            url: 'https://images.henriquebarucco.com.br',
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+            data: formData,
+        };
 
-    const curlCommand = `curl --location --request POST 'https://images.henriquebarucco.com.br' \
-      --form 'file=@"${tempFilePath}"'`;
+        const response = await axios(config);
 
-    return new Promise((resolve, reject) => {
-        exec(curlCommand, (error, stdout) => {
-            fs.unlinkSync(tempFilePath);
-
-            if (error) {
-                reject(new Error('Error uploading image: ' + error.message));
-                return;
-            }
-
-            resolve(stdout);
-        });
-    });
+        return response.data;
+    } catch (error: any) {
+        throw new Error('Error uploading image: ' + error.message);
+    }
 }
