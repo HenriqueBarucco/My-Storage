@@ -2,15 +2,18 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { saveImage } from '@/lib/image';
+import { useState } from 'react';
 
-export default function AddProduct() {
+export default function AddProduct({ closeModel }: any) {
+    const [loading, setLoading] = useState(false);
+
     const formSchema = z.object({
-        name: z.string(),
-        description: z.string(),
+        name: z.string().nonempty({ message: 'Nome do produto é obrigatório.' }),
+        description: z.string().nonempty({ message: 'Descrição do produto é obrigatória.' }),
         location: z.string(),
         isAtBox: z.boolean(),
         isDesire: z.boolean(),
-        image: z.any(),
+        image: z.any().refine((value) => value.length > 0),
         quantity: z.string(),
         price: z.string(),
         category: z.string(),
@@ -25,18 +28,21 @@ export default function AddProduct() {
     });
 
     const onSubmit = async (data: any) => {
+        setLoading(true);
         try {
             await fetch('/api/product', {
                 method: 'POST',
                 body: JSON.stringify({
                     ...data,
-                    image: await getImageUrl(data.image[0]),
+                    image: await getImageUrl(data?.image[0]),
                 }),
                 headers: {
                     'Content-Type': 'application/json',
                 },
             });
+            closeModel();
         } catch (error: any) {
+            setLoading(false);
             console.error(error);
         }
     };
@@ -73,6 +79,11 @@ export default function AddProduct() {
                         className="input input-bordered input-sm"
                         {...register('location', { required: true })}
                     />
+                    {errors.location && (
+                        <span className="text-red-500">
+                            {errors.location.message?.toString()}
+                        </span>
+                    )}
                 </div>
                 <div className="join join-vertical w-auto">
                     <div className="input-group">
@@ -136,7 +147,7 @@ export default function AddProduct() {
                     <input
                         type="number"
                         className="input input-bordered input-sm"
-                        defaultValue={0}
+                        defaultValue={1}
                         {...register('quantity', { required: true })}
                     />
                 </div>
@@ -146,7 +157,7 @@ export default function AddProduct() {
                         <span className="text-primary">R$</span>
                         <input
                             type="number"
-                            className="input input-bordered input-sm w-full"
+                            className="input input-bordered input-sm w-auto"
                             defaultValue={0}
                             {...register('price', { required: true })}
                         />
@@ -159,12 +170,16 @@ export default function AddProduct() {
                     className="select select-bordered max-w"
                     {...register('category', { required: true })}
                 >
-                    <option disabled>Selecione uma categoria</option>
+                    <option disabled selected>Selecione uma categoria</option>
                     <option>Eletrônico</option>
                     <option>Cabo</option>
                 </select>
             </div>
-            <input className="btn btn-primary" type="submit" value={'Salvar'} />
+            <button className="btn btn-primary" type='submit'>
+                {loading && <span className="loading loading-spinner"/>}
+                Salvar
+            </button>
+            {/* <input className="btn btn-primary loading loading-spinner" type="submit" value={'Salvar'} /> */}
         </form>
     );
 }

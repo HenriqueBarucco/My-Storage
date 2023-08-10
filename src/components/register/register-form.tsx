@@ -1,11 +1,15 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import { signIn } from 'next-auth/react';
 import Link from 'next/link';
+import { useState } from 'react';
 import { FieldValues, useForm } from 'react-hook-form';
 import { z } from 'zod';
 
 export default function RegisterForm() {
+    const [loading, setLoading] = useState(false);
+
     const formSchema = z.object({
         name: z.string().min(3, {message: 'Nome deve conter no mínimo 3 caracteres.'}),
         email: z.string().email({message: 'Email inválido.'}),
@@ -21,7 +25,26 @@ export default function RegisterForm() {
     });
 
     const onSubmit = async (data: FieldValues) => {
-        console.error(data);
+        setLoading(true);
+
+        try {
+            const res = await fetch('/api/register', {
+                method: 'POST',
+                body: JSON.stringify(data),
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            setLoading(false);
+            if (!res.ok) {
+                return;
+            }
+
+            signIn(undefined, { callbackUrl: '/' });
+        } catch (error: any) {
+            setLoading(false);
+        }
     };
 
     return (
@@ -81,14 +104,15 @@ export default function RegisterForm() {
                                         {errors.password.message?.toString()}
                                     </span>
                                 )}
-                                <Link href={'/login'}>
-                                    <label className="label">
-                                        <a href="#" className="label-text-alt link link-hover">Já possuí uma conta? Entre com ela clicando aqui.</a>
-                                    </label>
-                                </Link>
                             </div>
-                            <div className="form-control mt-6">
-                                <button className="btn btn-primary">Cadastrar</button>
+                            <div className="form-control mt-6 space-y-3">
+                                <button className="btn btn-primary">
+                                    {loading && <span className="loading loading-spinner"/>}
+                                    Cadastrar
+                                </button>
+                                <Link href={'/login'} className="label-text-alt link link-hover text-center">
+                                    Já possuí uma conta? Entre com ela clicando aqui.
+                                </Link>
                             </div>
                         </form>
                     </div>

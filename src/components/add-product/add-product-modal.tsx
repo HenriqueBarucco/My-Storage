@@ -33,7 +33,7 @@ export default function AddProductModal() {
                         ✕
                     </button>
                     <h3 className="font-bold text-lg">Adicionar produto</h3>
-                    <AddProduct />
+                    <AddProduct closeModel={() => window.modal.close()} />
                 </div>
             </dialog>
         </>

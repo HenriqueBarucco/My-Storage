@@ -3,10 +3,13 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { signIn } from 'next-auth/react';
 import Link from 'next/link';
+import { useState } from 'react';
 import { FieldValues, useForm } from 'react-hook-form';
 import { z } from 'zod';
 
 export default function LoginForm() {
+    const [loading, setLoading] = useState(false);
+
     const formSchema = z.object({
         email: z.string().email({message: 'Email inválido.'}),
         password: z.string().min(6, {message: 'Senha deve conter no mínimo 6 caracteres.'}),
@@ -21,6 +24,7 @@ export default function LoginForm() {
     });
 
     const onSubmit = async (data: FieldValues) => {
+        setLoading(true);
         signIn('credentials', {
             email: data.email,
             password: data.password,
@@ -69,14 +73,15 @@ export default function LoginForm() {
                                         {errors.password.message?.toString()}
                                     </span>
                                 )}
-                                <Link href={'/register'}>
-                                    <label className="label">
-                                        <a href="#" className="label-text-alt link link-hover">Não possuí uma conta? Crie uma agora mesmo.</a>
-                                    </label>
-                                </Link>
                             </div>
-                            <div className="form-control mt-6">
-                                <button className="btn btn-primary">Entrar</button>
+                            <div className="form-control mt-6 space-y-3">
+                                <button className="btn btn-primary">
+                                    {loading && <span className="loading loading-spinner"/>}
+                                    Entrar
+                                </button>
+                                <Link href={'/register'} className='label-text-alt link link-hover text-center'>
+                                    Não possuí uma conta? Crie uma agora mesmo.
+                                </Link>
                             </div>
                         </form>
                     </div>
