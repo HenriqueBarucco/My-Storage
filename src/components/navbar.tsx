@@ -55,8 +55,8 @@ export default function Navbar({ name }: { name: string }) {
                     >
                         <div className="w-10 rounded-full">
                             <Image
-                                src={'https://github.com/henriquebarucco.png'}
-                                alt="HB"
+                                src={'https://images.henriquebarucco.com.br/X22Lv.png'}
+                                alt={name}
                                 width={720}
                                 height={720}
                             />
