@@ -4,15 +4,16 @@ import { signOut } from 'next-auth/react';
 import AddProductModal from './add-product/add-product-modal';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
 export default function Navbar({ name }: { name: string }) {
+    const [searchQuery, setSearchQuery] = useState('');
     const router = useRouter();
     const pathname = usePathname();
 
-    const handleInputChange = (event: any) => {
-        const { value } = event.target;
-        router.push(pathname + '?search=' + value);
-    };
+    useEffect(() => {
+        router.push(pathname + '?search=' + searchQuery);
+    }, [searchQuery, pathname, router]);
 
     return (
         <div className="navbar bg-base-200">
@@ -39,9 +40,10 @@ export default function Navbar({ name }: { name: string }) {
                 <div className="form-control">
                     <input
                         type="text"
+                        value={searchQuery}
                         placeholder="Procurar"
                         className="input input-bordered w-24 md:w-auto"
-                        onKeyUp={handleInputChange}
+                        onChange={(e) => setSearchQuery(e.target.value)}
                     />
                 </div>
                 <div className="dropdown dropdown-end">

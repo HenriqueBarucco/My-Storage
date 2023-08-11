@@ -6,10 +6,9 @@ import ProductCard from './product-card';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
 export default function ProductsList({ products }: { products: Product[] }) {
-    const [productList, setProducts] = useState(
-        products.filter((product) => !product.desire),
-    );
+    const [ productsList, setProductsList ] = useState(products);
     const [desire, setDesire] = useState(false);
+    
     const searchParams = useSearchParams();
     const router = useRouter();
     const pathname = usePathname();
@@ -18,24 +17,16 @@ export default function ProductsList({ products }: { products: Product[] }) {
 
     useEffect(() => {
         if (search) {
-            setProducts(
+            setProductsList(
                 products.filter((product) =>
                     product.name.toLowerCase().includes(search.toLowerCase()),
                 ),
             );
         } else {
             router.replace(pathname);
-            setProducts(products);
+            setProductsList(products);
         }
     }, [search, pathname, router, products]);
-
-    useEffect(() => {
-        if (desire) {
-            setProducts(products.filter((product) => product.desire));
-        } else {
-            setProducts(products.filter((product) => !product.desire));
-        }
-    }, [desire, products]);
 
     return (
         <>
@@ -54,9 +45,11 @@ export default function ProductsList({ products }: { products: Product[] }) {
                 </a>
             </div>
             <div className="flex flex-wrap max-w-full p-14 lg:justify-center">
-                {productList.map((product, index) => (
-                    <ProductCard key={index} product={product as any} />
-                ))}
+                {
+                    productsList.filter(product => product.desire != !desire).map((product) => (
+                        <ProductCard key={product.id} product={product as any} />
+                    ))
+                }
             </div>
         </>
     );

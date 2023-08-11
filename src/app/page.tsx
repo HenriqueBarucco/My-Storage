@@ -6,8 +6,7 @@ import { getServerSession } from 'next-auth';
 
 export default async function Home() {
     const session = (await getServerSession(authOptions)) as any;
-
-    let products = await prisma.product.findMany({
+    const products = await prisma.product.findMany({
         where: {
             userId: session?.user?.id,
             deleted: null,
