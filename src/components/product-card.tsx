@@ -6,9 +6,9 @@ import Link from 'next/link';
 
 export default function ProductCard({ product }: { product: Product }) {
     return (
-        <Link href={`/product/${product.id}`}>
-            <div className="card w-60 h-96 shadow-xl glass hover:cursor-pointer hover:shadow-2xl m-3">
-                <figure className="w-60 h-40">
+        <Link href={`/product/${product.id}`} className='hover:cursor-default'>
+            <div className="card w-60 h-96 shadow-xl glass hover:shadow-2xl m-3">
+                <figure className="w-60 h-40 hover:cursor-pointer">
                     <Image
                         src={product.image}
                         alt={product.name}
@@ -19,29 +19,29 @@ export default function ProductCard({ product }: { product: Product }) {
                     />
                 </figure>
                 <div className="card-body p-3">
-                    <div className="flex justify-center items-center">
-                        <h2 className="font-semibold mb-3">
+                    <div className='flex flex-row'>
+                        <h2 className="flex-auto justify-center items-center font-semibold mb-3 text-center">
                             {product.name}
                         </h2>
-                    </div>
-                    <div className="flex items-end -mt-11">
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            strokeWidth={1.5}
-                            className={`w-6 h-6 flex-shrink-0 ml-auto ${
-                                product.isAtBox
-                                    ? 'stroke-primary'
-                                    : 'stroke-current'
-                            }`}
-                        >
-                            <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z"
-                            />
-                        </svg>
+                        <div className="w-6 hover:cursor-pointer">
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                strokeWidth={1.5}
+                                className={`w-6 h-6 flex-shrink-0 ml-auto ${
+                                    product.isAtBox
+                                        ? 'stroke-primary'
+                                        : 'stroke-current'
+                                }`}
+                            >
+                                <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z"
+                                />
+                            </svg>
+                        </div>
                     </div>
                     <p className="line-clamp-3 mb-16">{product.description}</p>
                     <div className="card-actions justify-center">
