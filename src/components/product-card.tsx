@@ -20,7 +20,7 @@ export default function ProductCard({ product }: { product: Product }) {
     };
 
     return (
-        <div className="card w-60 h-96 shadow-xl glass hover:shadow-2xl m-3">
+        <div className="card w-60 h-96 shadow-xl bg-base-300 hover:shadow-2xl m-3">
             <Link href={`/product/${product.id}`} className='hover:cursor-default'>
                 <figure className="w-60 h-40 hover:cursor-pointer">
                     <Image
