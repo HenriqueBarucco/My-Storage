@@ -80,3 +80,44 @@ export async function DELETE(req: Request) {
         );
     }
 }
+
+export async function PATCH(req: Request) {
+    const session = (await getServerSession(authOptions)) as any;
+
+    try {
+        const { id } = (await req.json()) as { id: string };
+
+        const product = await prisma.product.findUnique({
+            where: {
+                id: id,
+                userId: session.user.id,
+            },
+        });
+
+        const isAtBox = product?.isAtBox;
+
+        await prisma.product.update({
+            where: {
+                id: id,
+                userId: session.user.id,
+            },
+            data: {
+                isAtBox: !isAtBox,
+            },
+        });
+
+        return NextResponse.json({
+            message: `Product now is ${
+                !isAtBox ? 'at the box.' : 'out of the box.'
+            }`,
+        });
+    } catch (error: any) {
+        return new NextResponse(
+            JSON.stringify({
+                status: 'error',
+                message: error.message,
+            }),
+            { status: 500 },
+        );
+    }
+}

@@ -3,8 +3,22 @@
 import { Product } from '@prisma/client';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useState } from 'react';
 
 export default function ProductCard({ product }: { product: Product }) {
+    const [isAtBox, setIsAtBox] = useState(product.isAtBox);
+
+    const handleBoxStatus = async () => {
+        setIsAtBox(!isAtBox);
+        fetch('/api/product', {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({id: product.id})
+        });
+    };
+
     return (
         <div className="card w-60 h-96 shadow-xl glass hover:shadow-2xl m-3">
             <Link href={`/product/${product.id}`} className='hover:cursor-default'>
@@ -24,14 +38,14 @@ export default function ProductCard({ product }: { product: Product }) {
                     <h2 className="flex-auto justify-center items-center font-semibold mb-3 text-center">
                         {product.name}
                     </h2>
-                    <div className="w-6 hover:cursor-pointer">
+                    <div className="w-6 hover:cursor-pointer" onClick={handleBoxStatus}>
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
                             fill="none"
                             viewBox="0 0 24 24"
                             strokeWidth={1.5}
                             className={`w-6 h-6 flex-shrink-0 ml-auto ${
-                                product.isAtBox
+                                isAtBox
                                     ? 'stroke-primary'
                                     : 'stroke-current'
                             }`}
