@@ -179,7 +179,6 @@ export default function AddProduct({ closeModel }: any) {
                 {loading && <span className="loading loading-spinner"/>}
                 Salvar
             </button>
-            {/* <input className="btn btn-primary loading loading-spinner" type="submit" value={'Salvar'} /> */}
         </form>
     );
 }
