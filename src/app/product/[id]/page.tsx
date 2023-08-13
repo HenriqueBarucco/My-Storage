@@ -19,7 +19,7 @@ export default async function Product({ params }: { params: { id: string } }) {
         <main className="flex flex-col h-screen">
             <Navbar name={session?.user?.name} />
             <div className="flex-grow bg-base flex items-center justify-center">
-                {product && <ProductView product={product} />}
+                {product ? (<ProductView product={product} />) : <p>Não foi encontrado nenhum produto.</p>}
             </div>
         </main>
     );

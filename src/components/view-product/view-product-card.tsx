@@ -2,9 +2,14 @@
 
 import { Product } from '@prisma/client';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 
 export default function ProductView({ product }: { product: Product }) {
+    const [loadingDelete, setLoadingDelete] = useState(false);
+    const route = useRouter();
     const deleteProduct = async () => {
+        setLoadingDelete(true);
         try {
             await fetch('/api/product', {
                 method: 'DELETE',
@@ -13,8 +18,11 @@ export default function ProductView({ product }: { product: Product }) {
                     'Content-Type': 'application/json',
                 },
             });
+            route.push('/');
+            setLoadingDelete(false);
         } catch (error: any) {
             console.error(error);
+            setLoadingDelete(false);
         }
     };
 
@@ -93,31 +101,22 @@ export default function ProductView({ product }: { product: Product }) {
                     </p>
                 </div>
                 <div className="flex flex-row justify-center space-x-4">
-                    <button>
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            className="w-6 h-6 stroke-current"
-                        >
-                            <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10"
-                            />
+                    <button onClick={() => console.error('Falta implementar.')} className='btn btn-ghost btn-circle'>
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" className="w-6 h-6 stroke-current">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
                         </svg>
                     </button>
-                    <button onClick={boughtProduct} hidden={!product.desire}>
+                    <button onClick={boughtProduct} hidden={!product.desire} className={product.desire ? 'btn btn-ghost btn-circle' : ''}>
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M3 3l1.664 1.664M21 21l-1.5-1.5m-5.485-1.242L12 17.25 4.5 21V8.742m.164-4.078a2.15 2.15 0 011.743-1.342 48.507 48.507 0 0111.186 0c1.1.128 1.907 1.077 1.907 2.185V19.5M4.664 4.664L19.5 19.5" />
                         </svg>
                     </button>
-                    <button onClick={deleteProduct}>
+                    <button onClick={deleteProduct} className='btn btn-ghost btn-circle'>
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
                             fill="none"
                             viewBox="0 0 24 24"
-                            className="w-6 h-6 stroke-red-600"
+                            className={loadingDelete ? 'w-6 h-6 loading loading-spinner text-primary': 'w-6 h-6 stroke-red-600'}
                         >
                             <path
                                 strokeLinecap="round"
