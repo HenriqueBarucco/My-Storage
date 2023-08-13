@@ -121,3 +121,33 @@ export async function PATCH(req: Request) {
         );
     }
 }
+
+export async function PUT(req: Request) {
+    const session = (await getServerSession(authOptions)) as any;
+
+    try {
+        const { id } = (await req.json()) as { id: string };
+
+        await prisma.product.update({
+            where: {
+                id: id,
+                userId: session.user.id,
+            },
+            data: {
+                desire: false,
+            },
+        });
+
+        return NextResponse.json({
+            message: 'Product now is not a desire anymore.',
+        });
+    } catch (error: any) {
+        return new NextResponse(
+            JSON.stringify({
+                status: 'error',
+                message: error.message,
+            }),
+            { status: 500 },
+        );
+    }
+}
