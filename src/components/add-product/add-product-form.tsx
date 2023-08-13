@@ -14,8 +14,8 @@ export default function AddProduct({ closeModel }: any) {
         isAtBox: z.boolean(),
         isDesire: z.boolean(),
         image: z.any().refine((value) => value.length > 0),
-        quantity: z.string(),
-        price: z.string(),
+        quantity: z.number(),
+        price: z.number(),
         category: z.string(),
     });
 
@@ -148,7 +148,7 @@ export default function AddProduct({ closeModel }: any) {
                         type="number"
                         className="input input-bordered input-sm"
                         defaultValue={1}
-                        {...register('quantity', { required: true })}
+                        {...register('quantity', { required: true, setValueAs: (value) => Number(value) })}
                     />
                 </div>
                 <div className="join join-vertical w-auto">
@@ -159,7 +159,7 @@ export default function AddProduct({ closeModel }: any) {
                             type="number"
                             className="input input-bordered input-sm w-auto"
                             defaultValue={0}
-                            {...register('price', { required: true })}
+                            {...register('price', { required: true, setValueAs: (value) => Number(value)  })}
                         />
                     </div>
                 </div>

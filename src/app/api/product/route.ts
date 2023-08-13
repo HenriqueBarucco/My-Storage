@@ -1,5 +1,6 @@
 import { authOptions } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
+import { Product } from '@prisma/client';
 import { getServerSession } from 'next-auth';
 import { NextResponse } from 'next/server';
 
@@ -12,22 +13,12 @@ export async function POST(req: Request) {
             description,
             location,
             isAtBox,
-            isDesire,
+            desire,
             image,
             quantity,
             price,
             category,
-        } = (await req.json()) as {
-            name: string;
-            description: string;
-            location: string;
-            isAtBox: boolean;
-            isDesire: boolean;
-            image: string;
-            quantity: string;
-            price: string;
-            category: string;
-        };
+        } = (await req.json()) as Product;
 
         const product = await prisma.product.create({
             data: {
@@ -35,11 +26,11 @@ export async function POST(req: Request) {
                 description,
                 location,
                 image,
-                quantity: parseInt(quantity),
-                price: parseFloat(price),
+                quantity,
+                price,
                 category,
                 isAtBox,
-                desire: isDesire,
+                desire,
                 userId: session.user.id,
             },
         });
